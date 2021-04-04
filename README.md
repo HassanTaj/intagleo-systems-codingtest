@@ -1,5 +1,6 @@
-# intagleo-systems-codingtest
+# Intagleo Systems Coding Test
 
+#### Details
 > Cantidate : Hassan Taj  
 > Email :  hassantaj01@gmail.com  
 
