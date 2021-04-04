@@ -1,0 +1,62 @@
+﻿@model IEnumerable<CodingAssignment.DTOs.Student>
+
+@{
+    ViewBag.Title = "Students";
+}
+
+<div class="card mt-5">
+    <div class="card-body">
+        <h4 class="card-title">Students</h4>
+        <table class="table table-borderless">
+            <tr class="table-bordered">
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RollNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                @*<th>
+                    <a href="/student/createorupdate" class="btn btn-sm btn-primary">Create</a>
+                </th>*@
+            </tr>
+
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RollNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    @*<td>
+                        <a href="/student/createorupdate/@item.Id" class="btn btn-sm btn-success">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="/student/delete" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>*@
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CodingAssignment.DTOs.Student>
+
+@{
+    ViewBag.Title = "Student Cources";
+}
+
+<div class="card mt-5">
+    <div class="card-body">
+        <h4 class="card-title">Student Courses</h4>
+
+        <div class="row">
+            @foreach (var item in Model) {
+                <div class="col-md-6">
+                    <table class="table table-borderless">
+                        <tr class="table-bordered">
+                            <th>Student</th>
+                            <td>@item.Name</td>
+                            <th>Roll #</th>
+                            <td>@item.RollNo</td>
+                        </tr>
+                        <tr class="table-dark table-bordered">
+                            <th>Course Name</th>
+                            <th>Course No</th>
+                            <th>Marks</th>
+                            <th><button class="btn btn-sm btn-light create-js" data-action="#/StudentCourse/AddOrUpdateStudentCourse/?sid=@item.Id" data-title="Add Course for @item.Name" type="button"> Add Course</button></th>
+                        </tr>
+                        @if (item.StudentCourses.Count > 0) {
+                            foreach (var sc in item.StudentCourses) {
+                                <tr class="table-light">
+                                    <td>@sc.Course.Name</td>
+                                    <td>@sc.Course.CourseNo</td>
+                                    <td>@sc.ObtainedMarks</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-light update-js" data-action="#/StudentCourse/AddOrUpdateStudentCourse/@sc.Id" data-title="Modify Course Result for @item.Name" type="button"> <i class="fa fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

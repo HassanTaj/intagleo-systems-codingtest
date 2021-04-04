@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Gpa Calculator";
+}
+
+<div class="card mt-5">
+    <div class="card-body">
+        <h4 class="card-title">@ViewBag.Title</h4>
+        <h6 class="card-subtitle mb-2 text-muted">Please Note, The Gpa would be calculated on a <strong>4.0</strong> scale & total Marks for every subject are <strong>100</strong></h6>
+        <hr />
+        <form class="form-inline my-2 my-lg-0" id="gapCalculator" action="/api/gpa">
+            <input class="form-control mr-sm-2" type="text" name="RollNumber" id="RollNumber" placeholder="Enter Roll #" required>
+            <input class="form-control mr-sm-2" type="text" name="CourseNo" id="CourseNo" placeholder="Course No">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        <div id="response-container" class="mt-4">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $("#gapCalculator").submit(function (e) {
+            e.preventDefault();
+
+            var url = $(this).prop("action");
+            url += `/${$("#RollNumber").val()}`;
+            url += `/${$("#CourseNo").val()}`;
+            var btn = $(this).children("button[type=submit]");
+            btn.prop('disabled', true);
+            var BtnContent = btn.html();
+            btn.html(`<i class="fas fa-circle-notch fa-spin"></i>`);
+            $.ajax({
+                method: "get",
+                url: url
+            }).done(function (res) {
+                btn.html(BtnContent);
+                btn.prop('disabled', false);
+                console.log(res);
+                var tr1 = `<tr class="table-bordered">
+                        <th>Student</th>
+                        <td>${res.Name}</td>
+                        <th>Roll #</th>
+                        <td>${res.RollNo}</td>
+                    </tr>`
+                var cources = ``;
+                if (res.Gpas != undefined && res.Gpas.length > 0) {
+                    $.each(res.Gpas, function (i, el) {
+                        cources += `<tr class="table-light">
+                        <td>${el.CourseName}</td>
+                        <td>${el.CourseNo}</td>
+                        <td>${el.Grade}</td>
+                        <td>${parseFloat(el.GradePoint).toPrecision(2)}</td>
+                    </tr>`
+                    });
+                }
+
+                var table = `<table class="table table-borderless">${tr1}
+                    <tr class="table-dark table-bordered">
+                        <th>Course Name</th>
+                        <th>Course No</th>
+                        <th>Grade</th>
+                        <th>GPA</th>
+                    </tr>
+                   ${cources}
+                </table>`;
+
+                $("#response-container").html(table);
+
+            }).fail(function (jqXHR, textStatus, error) {
+                btn.html(BtnContent);
+                Swal.fire("Failed", "Request Failed. Try later.", "error");
+                btn.prop('disabled', false);
+            });
+        });
+    </script>
+}
